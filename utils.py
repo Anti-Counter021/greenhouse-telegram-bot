@@ -4,7 +4,7 @@ from aiogram.dispatcher import FSMContext
 from typing import Dict, List
 
 from dispatcher import bot
-from handlers.state import ProductsState
+from handlers.states import ProductsState
 from server_requests import HOST
 
 

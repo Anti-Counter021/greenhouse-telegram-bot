@@ -14,3 +14,4 @@ class CategoriesState(StatesGroup):
 
     categories: List[Dict] = State()
     categories_slug_list: List[str] = State()
+    message_to_product_id: Dict[int, str] = State()

@@ -1,8 +1,10 @@
+import logging
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from dispatcher import dispatcher
-from .state import ProductsState
+from .states import ProductsState
 from server_requests import request_products
 from utils import product_detail_load, parse_product
 
@@ -18,7 +20,7 @@ async def get_products(message: types.Message, state: FSMContext):
 
 
 @dispatcher.message_handler(commands=['detail'])
-async def detail_product(message: types.Message, state: FSMContext = ProductsState):
+async def detail_product(message: types.Message, state: FSMContext):
 
     if not message.reply_to_message:
         await message.reply('Это сообщение должно быть ответом на тот товар, который вы хотите детально посмотреть!')
