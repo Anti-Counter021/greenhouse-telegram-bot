@@ -2,7 +2,7 @@ from aiogram import Bot, Dispatcher, executor, types
 
 import logging
 
-from typing import List
+from typing import List, Dict
 
 from config import TOKEN
 from server_requests import request_products, request_categories, HOST
@@ -12,8 +12,36 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML)
 dispatcher = Dispatcher(bot=bot)
 
-categories = []
+categories: List[Dict] = []
 categories_slug_list: List[str] = []
+
+
+async def load_products(products, user_id):
+    for product in products:
+        price = f'{product["price"]} руб.' if not product["discount"] else \
+            f'<del>{product["price"]}</del> <strong>-{product["discount"]}%</strong>\n' \
+            f'{product["price_with_discount"]} руб.'
+        await bot.send_message(
+            user_id,
+            f'{product["title"]}\n'
+            f'{price}\n'
+            f'{product["description"]}'
+        )
+        await bot.send_message(user_id, HOST + "/products/" + product["slug"])
+
+
+@dispatcher.message_handler(commands=['link'])
+async def link(message: types.Message):
+    await message.answer(f'Ссылка на наш сайт {HOST}')
+
+
+@dispatcher.message_handler(commands=['start'])
+async def start(message: types.Message):
+    await message.answer(
+        f'Приветствую @{message.from_user.username}!\n'
+        f'Я бот от сайта по продже теплиц. Вы можете получить ссылку на наш сайт командой /link.\n'
+        f'У меня ограниченный функционал, поэтому рекомендую всё-таки использовать наш сайт.'
+    )
 
 
 @dispatcher.message_handler(commands=['categories'])
@@ -45,17 +73,7 @@ async def callback(callback_query: types.CallbackQuery):
             f'Выбрана категория - <strong>{category_select["name"]}</strong>\n'
             f'Товары к этой категории:'
         )
-        for product in category_select['products']:
-            price = f'{product["price"]} руб.' if not product["discount"] else \
-                f'<del>{product["price"]}</del> <strong>-{product["discount"]}%</strong>\n' \
-                f'{product["price_with_discount"]} руб.'
-            await bot.send_message(
-                callback_query.from_user.id,
-                f'{product["title"]}\n'
-                f'{price}\n'
-                f'{product["description"]}'
-            )
-            await bot.send_message(callback_query.from_user.id, HOST + "/products/" + product["slug"])
+        await load_products(category_select['products'], callback_query.from_user.id)
     # await bot.edit_message_reply_markup(
     #     callback_query.message.chat.id, callback_query.message.message_id, reply_markup=None
     # )

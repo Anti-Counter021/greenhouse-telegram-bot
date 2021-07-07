@@ -7,10 +7,6 @@ class ProductsRequest(AbstractRequest):
         self.url = 'products/'
         return self.load_json()
 
-    def new_product(self):
-        self.url = 'products/new-product'
-        return self.load_json()
-
     def detail_product(self, slug):
         self.url = f'products/{slug}'
         return self.load_json()
