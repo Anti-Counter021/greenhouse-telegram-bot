@@ -2,8 +2,32 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from dispatcher import dispatcher
-from states import LoginState, RegisterState
-from server_requests import request_login, profile_request, logout_request, request_register
+from states import LoginState, RegisterState, ResetPasswordState
+from server_requests import request_login, profile_request, logout_request, request_register, request_reset_password
+
+
+@dispatcher.message_handler(commands=['reset_password'])
+async def reset_password(message: types.Message):
+
+    await message.answer('Пожалуйста введите почту для отправки сообщения о сбросе пароля')
+
+    dispatcher.register_message_handler(reset_password_email_set, state=ResetPasswordState.email)
+
+    await ResetPasswordState.email.set()
+
+
+async def reset_password_email_set(message: types.Message, state: FSMContext):
+
+    async with state.proxy() as data:
+        try:
+            request_reset_password.reset_password(message.text)
+            data['email'] = message.text
+            await message.answer('Письмо отправлено!')
+            dispatcher.message_handlers.unregister(reset_password_email_set)
+            await state.finish()
+        except:
+            await message.answer('Такой почты не существует! Введите другую')
+            return
 
 
 @dispatcher.message_handler(commands=['register'])
@@ -28,7 +52,7 @@ async def set_username_register(message: types.Message, state: FSMContext):
 
         try:
             request_register.exists_username(message.text)
-            await message.answer('Такое имя пользователя уже существует. Пожалуйства введить другое.')
+            await message.answer('Такое имя пользователя уже существует. Пожалуйства введите другое.')
             return
         except:
             data['username'] = message.text
@@ -62,10 +86,15 @@ async def set_email_register(message: types.Message, state: FSMContext):
         return
 
     async with state.proxy() as data:
-        data['email'] = message.text
+        try:
+            request_register.exists_email(message.text)
+            await message.answer('Такое почта уже существует. Пожалуйства введите другую.')
+            return
+        except:
+            data['email'] = message.text
 
-        await message.answer('Пожалуйста введите ваш номер телефона')
-        await RegisterState.phone.set()
+            await message.answer('Пожалуйста введите ваш номер телефона')
+            await RegisterState.phone.set()
 
 
 async def set_phone_register(message: types.Message, state: FSMContext):

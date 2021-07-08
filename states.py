@@ -34,3 +34,8 @@ class LoginState(StatesGroup):
     username: str = State()
     password: str = State()
     token: str = State()
+
+
+class ResetPasswordState(StatesGroup):
+
+    email: str = State()

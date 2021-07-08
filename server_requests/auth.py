@@ -7,12 +7,23 @@ class AuthMixin(AbstractRequest):
         self.url = 'auth/username'
         return self.post_json({'username': username})
 
+    def exists_email(self, email) -> str:
+        self.url = 'auth/email'
+        return self.post_json({'email': email})
+
 
 class RegisterRequest(AuthMixin):
 
     def register(self, data):
         self.url = 'auth/register'
         return self.post_json(data)
+
+
+class ResetPasswordRequest(AuthMixin):
+
+    def reset_password(self, email):
+        self.url = 'auth/password/reset/'
+        return self.post_json({'email': email})
 
 
 class LoginRequest(AuthMixin):
@@ -42,5 +53,6 @@ class ProfileRequest(AbstractRequest):
 
 request_login = LoginRequest()
 request_register = RegisterRequest()
+request_reset_password = ResetPasswordRequest()
 profile_request = ProfileRequest
 logout_request = LogoutRequest
