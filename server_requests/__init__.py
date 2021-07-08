@@ -3,4 +3,4 @@ SITE: str = HOST + '/api/'
 
 from .categories import request_categories
 from .products import request_products
-from .auth import request_login
+from .auth import request_login, profile_request
