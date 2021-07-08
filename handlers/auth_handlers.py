@@ -6,7 +6,6 @@ from states import LoginState, RegisterState
 from server_requests import request_login, profile_request, logout_request, request_register
 
 
-# Fix login
 @dispatcher.message_handler(commands=['register'])
 async def register(message: types.Message):
 
@@ -119,10 +118,9 @@ async def set_password_register(message: types.Message, state: FSMContext):
     dispatcher.message_handlers.unregister(set_address_register)
     dispatcher.message_handlers.unregister(set_password_register)
 
-    # dispatcher.register_message_handler(login, commands=['login'])
+    await state.finish()
 
 
-# Fix for later login command "/login"
 @dispatcher.message_handler(commands=['login'])
 async def login(message: types.Message):
 
