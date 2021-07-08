@@ -17,6 +17,18 @@ class CategoriesState(StatesGroup):
     message_to_product_id: Dict[int, str] = State()
 
 
+class RegisterState(StatesGroup):
+
+    username: str = State()
+    email: str = State()
+    first_name: str = State()
+    last_name: str = State()
+    phone: str = State()
+    address: str = State()
+    password: str = State()
+    confirm_password: str = State()
+
+
 class LoginState(StatesGroup):
 
     username: str = State()
