@@ -3,9 +3,10 @@ from aiogram.dispatcher import FSMContext
 
 from dispatcher import dispatcher
 from states import LoginState
-from server_requests import request_login, profile_request
+from server_requests import request_login, profile_request, logout_request
 
 
+# Fix for later login command "/login"
 @dispatcher.message_handler(commands=['login'])
 async def login(message: types.Message):
 
@@ -45,8 +46,19 @@ async def set_password(message: types.Message, state: FSMContext):
     dispatcher.message_handlers.unregister(set_password)
 
 
+# Normal output !!!
 @dispatcher.message_handler(state=LoginState, commands=['profile'])
 async def get_profile(message: types.Message, state: FSMContext):
 
     async with state.proxy() as data:
         await message.answer(profile_request(data['token']).load_json())
+
+
+@dispatcher.message_handler(state=LoginState, commands=['logout'])
+async def logout(message: types.Message, state: FSMContext):
+
+    async with state.proxy() as data:
+        logout_request(data['token']).load_json()
+
+    await state.finish()
+    await message.answer('Вы вышли из сети!')
