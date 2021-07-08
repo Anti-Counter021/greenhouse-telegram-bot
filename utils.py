@@ -4,7 +4,7 @@ from aiogram.dispatcher import FSMContext
 from typing import Dict, List
 
 from dispatcher import bot
-from handlers.states import ProductsState
+from states import ProductsState
 from server_requests import HOST
 
 
@@ -13,7 +13,8 @@ async def product_features(features: List[Dict], user_id: int) -> None:
     features_str = 'Название - Характеристика\n'
 
     for feature in features:
-        features_str += f'\n\t\t{feature["name"]} - {feature["feature_value"]}{feature["unit"]}'
+        features_str += \
+            f'\n\t\t{feature["name"]} - {feature["feature_value"]}{feature["unit"] if feature["unit"] else ""}'
 
     await bot.send_message(
         user_id,

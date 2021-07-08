@@ -4,7 +4,7 @@ from aiogram.dispatcher import FSMContext
 from typing import List
 
 from dispatcher import dispatcher
-from server_requests.categories import request_categories
+from server_requests import request_categories
 
 
 @dispatcher.message_handler(commands=['categories'])
