@@ -8,6 +8,19 @@ from handlers.states import ProductsState
 from server_requests import HOST
 
 
+async def product_features(features: List[Dict], user_id: int) -> None:
+
+    features_str = 'Название - Характеристика\n'
+
+    for feature in features:
+        features_str += f'\n\t\t{feature["name"]} - {feature["feature_value"]}{feature["unit"]}'
+
+    await bot.send_message(
+        user_id,
+        features_str
+    )
+
+
 async def product_detail_load(product: Dict, user_id: int) -> int:
 
     price = f'{product["price"]} руб.' if not product["discount"] else \

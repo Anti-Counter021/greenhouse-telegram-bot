@@ -1,12 +1,9 @@
-import logging
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from dispatcher import dispatcher
-from .states import ProductsState
 from server_requests import request_products
-from utils import product_detail_load, parse_product
+from utils import product_detail_load, parse_product, product_features
 
 
 @dispatcher.message_handler(commands=['products'])
@@ -36,3 +33,5 @@ async def detail_product(message: types.Message, state: FSMContext):
         response = request_products.detail_product(slug)
 
         await product_detail_load(response, message.from_user.id)
+        if response['features']:
+            await product_features(response['features'], message.from_user.id)

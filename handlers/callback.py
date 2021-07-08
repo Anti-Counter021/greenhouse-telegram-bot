@@ -22,7 +22,9 @@ async def callback_categories(callback_query: types.CallbackQuery, state: FSMCon
                     f'Выбрана категория - <strong>{category_select["name"]}</strong>\n'
                     f'Товары к этой категории:'
                 )
-                data['message_to_product_id'] = await load_products(category_select['products'], callback_query.from_user.id)
+                data['message_to_product_id'] = await load_products(
+                    category_select['products'], callback_query.from_user.id
+                )
                 return
 
         if callback_query.data == data['next_page_number']:
