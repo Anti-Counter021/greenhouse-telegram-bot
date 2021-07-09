@@ -23,5 +23,11 @@ class CartRequest(AbstractRequest):
         response.raise_for_status()
         return json.loads(response.text)
 
+    def change_qry(self, cart_product_id, qty) -> str:
+        self.url = f'cart/change-qty/{cart_product_id}/{qty}/'
+        response = self.session.put(self.base_url + self.url)
+        response.raise_for_status()
+        return json.loads(response.text)
+
 
 request_cart = CartRequest
