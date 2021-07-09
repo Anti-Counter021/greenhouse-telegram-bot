@@ -35,6 +35,13 @@ class LoginState(StatesGroup):
     password: str = State()
     token: str = State()
 
+    next_page_number: str = State()
+    user_id: int = State()
+    message_to_product_id: Dict[int, str] = State()
+
+    categories: List[Dict] = State()
+    categories_slug_list: List[str] = State()
+
 
 class ResetPasswordState(StatesGroup):
 

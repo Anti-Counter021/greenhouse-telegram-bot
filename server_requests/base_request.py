@@ -24,7 +24,9 @@ class AbstractRequest:
         response.raise_for_status()
         return json.loads(response.text)
 
-    def post_json(self, data) -> str:
+    def post_json(self, data=None) -> str:
+        if data is None:
+            data = {}
         response = self.session.post(self.base_url + self.url, json.dumps(data))
         response.raise_for_status()
         return json.loads(response.text)

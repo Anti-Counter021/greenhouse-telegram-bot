@@ -2,11 +2,12 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from dispatcher import dispatcher
+from states import LoginState
 from server_requests import request_products
 from utils import product_detail_load, parse_product, product_features
 
 
-@dispatcher.message_handler(commands=['products'])
+@dispatcher.message_handler(commands=['products'], state=[None, LoginState])
 async def get_products(message: types.Message, state: FSMContext):
 
     await message.answer('Вот первые несколько товаров по вашему запросу:')
@@ -16,7 +17,7 @@ async def get_products(message: types.Message, state: FSMContext):
     await parse_product(response, state)
 
 
-@dispatcher.message_handler(commands=['detail'])
+@dispatcher.message_handler(commands=['detail'], state=[None, LoginState])
 async def detail_product(message: types.Message, state: FSMContext):
 
     if not message.reply_to_message:
@@ -28,7 +29,7 @@ async def detail_product(message: types.Message, state: FSMContext):
             await message.reply('Выберите пожалуйста сообщение с товаром!')
             return
 
-        slug = data['message_to_product_id'][message.reply_to_message.message_id]
+        slug = data['message_to_product_id'][message.reply_to_message.message_id]['slug']
 
         response = request_products.detail_product(slug)
 

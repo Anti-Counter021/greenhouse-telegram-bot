@@ -4,7 +4,6 @@ from aiogram.dispatcher import FSMContext
 from typing import Dict, List
 
 from dispatcher import bot
-from states import ProductsState
 from server_requests import HOST
 
 
@@ -40,16 +39,16 @@ async def product_detail_load(product: Dict, user_id: int) -> int:
 
 
 async def load_products(products: List[Dict], user_id: int):
-    message_to_product_id: Dict[int, str] = {}
+    message_to_product_id: Dict[int, Dict[str]] = {}
 
     for product in products:
         message_id = await product_detail_load(product, user_id)
-        message_to_product_id[message_id] = product['slug']
+        message_to_product_id[message_id] = {'slug': product['slug'], 'id': product['id']}
 
     return message_to_product_id
 
 
-async def parse_product(response: dict, state: FSMContext = ProductsState):
+async def parse_product(response: dict, state: FSMContext):
 
     async with state.proxy() as data:
 
