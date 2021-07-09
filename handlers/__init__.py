@@ -5,3 +5,4 @@ from . import products_handlers
 from . import callback
 from . import auth_handlers
 from . import order_handlers
+from . import feedback_handlers

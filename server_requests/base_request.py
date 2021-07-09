@@ -19,12 +19,12 @@ class AbstractRequest:
         self.session.headers = self.headers
         self.base_url: str = SITE
 
-    def load_json(self) -> str:
+    def load_json(self):
         response = self.session.get(self.base_url + self.url)
         response.raise_for_status()
         return json.loads(response.text)
 
-    def post_json(self, data=None) -> str:
+    def post_json(self, data=None):
         if data is None:
             data = {}
         response = self.session.post(self.base_url + self.url, json.dumps(data))

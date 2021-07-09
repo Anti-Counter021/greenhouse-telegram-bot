@@ -1,10 +1,11 @@
 from aiogram import types
 
 from dispatcher import dispatcher
+from states import LoginState
 from server_requests import HOST
 
 
-@dispatcher.message_handler(commands=['link'])
+@dispatcher.message_handler(commands=['link'], state=[None, LoginState])
 async def link(message: types.Message):
     await message.answer(f'Ссылка на наш сайт {HOST}')
 

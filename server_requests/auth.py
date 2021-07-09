@@ -3,32 +3,32 @@ from .base_request import AbstractRequest
 
 class AuthMixin(AbstractRequest):
 
-    def exists_username(self, username) -> str:
+    def exists_username(self, username):
         self.url = 'auth/username'
         return self.post_json({'username': username})
 
-    def exists_email(self, email) -> str:
+    def exists_email(self, email):
         self.url = 'auth/email'
         return self.post_json({'email': email})
 
 
 class RegisterRequest(AuthMixin):
 
-    def register(self, data) -> str:
+    def register(self, data):
         self.url = 'auth/register'
         return self.post_json(data)
 
 
 class ResetPasswordRequest(AuthMixin):
 
-    def reset_password(self, email) -> str:
+    def reset_password(self, email):
         self.url = 'auth/password/reset/'
         return self.post_json({'email': email})
 
 
 class LoginRequest(AuthMixin):
 
-    def login(self, data) -> str:
+    def login(self, data):
         self.url = 'auth/token'
         return self.post_json(data)
 

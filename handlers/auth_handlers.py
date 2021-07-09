@@ -194,7 +194,16 @@ async def set_password_login(message: types.Message, state: FSMContext):
 async def get_profile(message: types.Message, state: FSMContext):
 
     async with state.proxy() as data:
-        await message.answer(profile_request(data['token']).load_json())
+        await message.answer('Ваши заказы:')
+        for order in profile_request(data['token']).load_json():
+            await message.answer('======================================================')
+            for cart_product in order['cart']['products']:
+                await message.answer(
+                    f'{cart_product["product"]["title"]} в количестве {cart_product["qty"]} шт.\n'
+                    f'Цена: {cart_product["price"]} руб.\n'
+                    f'Общая цена: {cart_product["final_price"]} руб.\n'
+                )
+            await message.answer(f'Итого {order["cart"]["final_price"]} руб.')
 
 
 @dispatcher.message_handler(state=LoginState, commands=['logout'])

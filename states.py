@@ -33,13 +33,6 @@ class LoginState(StatesGroup):
     password = State()
     token = State()
 
-    next_page_number = State()
-    user_id = State()
-    message_to_product_id = State()
-
-    categories = State()
-    categories_slug_list = State()
-
 
 class MakeOrderState(StatesGroup):
 
