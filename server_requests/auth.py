@@ -14,21 +14,21 @@ class AuthMixin(AbstractRequest):
 
 class RegisterRequest(AuthMixin):
 
-    def register(self, data):
+    def register(self, data) -> str:
         self.url = 'auth/register'
         return self.post_json(data)
 
 
 class ResetPasswordRequest(AuthMixin):
 
-    def reset_password(self, email):
+    def reset_password(self, email) -> str:
         self.url = 'auth/password/reset/'
         return self.post_json({'email': email})
 
 
 class LoginRequest(AuthMixin):
 
-    def login(self, data):
+    def login(self, data) -> str:
         self.url = 'auth/token'
         return self.post_json(data)
 

@@ -25,7 +25,7 @@ async def detail_product(message: types.Message, state: FSMContext):
         return
 
     async with state.proxy() as data:
-        if message.reply_to_message.message_id not in data['message_to_product_id'].keys():
+        if 'message_to_product_id' not in data.keys() or message.reply_to_message.message_id not in data['message_to_product_id'].keys():
             await message.reply('Выберите пожалуйста сообщение с товаром!')
             return
 
