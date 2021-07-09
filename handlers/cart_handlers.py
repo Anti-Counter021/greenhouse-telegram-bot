@@ -42,7 +42,7 @@ async def get_cart(message: types.Message, state: FSMContext):
             }
         await message.answer(f'Итого: {cart["final_price"]} руб.')
         await message.answer(
-            'Если хотите добавить ещё товары. То вам нужно их повторно запросить при помощи /products или /categories'
+            'Если хотите добавить товары. То вам нужно их повторно запросить при помощи /products или /categories'
         )
 
 

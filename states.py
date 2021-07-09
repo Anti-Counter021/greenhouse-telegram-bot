@@ -41,6 +41,16 @@ class LoginState(StatesGroup):
     categories_slug_list = State()
 
 
+class MakeOrderState(StatesGroup):
+
+    first_name = State()
+    last_name = State()
+    phone = State()
+    address = State()
+    buying_type = State()
+    order_date = State()
+
+
 class ResetPasswordState(StatesGroup):
 
     email = State()

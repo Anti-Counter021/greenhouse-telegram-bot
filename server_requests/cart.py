@@ -1,6 +1,6 @@
 import json
 
-from server_requests.base_request import AbstractRequest
+from .base_request import AbstractRequest
 
 
 class CartRequest(AbstractRequest):
