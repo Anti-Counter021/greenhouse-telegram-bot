@@ -128,7 +128,7 @@ async def set_password_register(message: types.Message, state: FSMContext):
         await message.answer('Пароли не совпадают!')
         return
 
-    if len(password) < 8:
+    if len(password) <= 8:
         await message.answer('Пароль должен быть больше 8 символов в длину!')
         return
 
