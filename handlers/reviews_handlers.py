@@ -16,7 +16,7 @@ async def get_reviews(message: types.Message, state: FSMContext):
     await parse_reviews(response, message, state)
 
 
-@dispatcher.message_handler(commands=['new-review'], state=[LoginState, MakeOrderState, ReviewState])
+@dispatcher.message_handler(commands=['new_review'], state=[LoginState, MakeOrderState, ReviewState])
 async def create_review(message: types.Message):
 
     await message.answer('Создание отзыва')
