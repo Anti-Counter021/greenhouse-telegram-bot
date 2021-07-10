@@ -16,9 +16,7 @@
 
     run file "bot.py"
 
-    Commands:
-
-        Many commands cannot be stopped after selection (registration ...)
+## Commands:
 
 ### `User Commands`
 
