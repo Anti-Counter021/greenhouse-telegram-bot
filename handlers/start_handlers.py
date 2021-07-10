@@ -1,11 +1,11 @@
 from aiogram import types
 
 from dispatcher import dispatcher
-from states import LoginState, MakeOrderState
+from states import LoginState, MakeOrderState, ReviewState
 from server_requests import HOST
 
 
-@dispatcher.message_handler(commands=['link'], state=[None, LoginState, MakeOrderState])
+@dispatcher.message_handler(commands=['link'], state=[None, LoginState, MakeOrderState, ReviewState])
 async def link(message: types.Message):
     await message.answer(f'Ссылка на наш сайт {HOST}')
 

@@ -4,11 +4,11 @@ from aiogram.dispatcher import FSMContext
 from typing import List
 
 from dispatcher import dispatcher
-from states import LoginState, MakeOrderState
+from states import LoginState, MakeOrderState, ReviewState
 from server_requests import request_categories
 
 
-@dispatcher.message_handler(commands=['categories'], state=[None, LoginState, MakeOrderState])
+@dispatcher.message_handler(commands=['categories'], state=[None, LoginState, MakeOrderState, ReviewState])
 async def get_categories(message: types.Message, state: FSMContext):
 
     async with state.proxy() as data:

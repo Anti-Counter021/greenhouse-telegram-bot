@@ -4,11 +4,11 @@ from aiogram.dispatcher import FSMContext
 from datetime import datetime
 
 from dispatcher import dispatcher
-from states import LoginState, MakeOrderState
+from states import LoginState, MakeOrderState, ReviewState
 from server_requests import request_order, request_cart
 
 
-@dispatcher.message_handler(commands=['make'], state=[LoginState, MakeOrderState])
+@dispatcher.message_handler(commands=['make'], state=[LoginState, MakeOrderState, ReviewState])
 async def make_order(message: types.Message, state: FSMContext):
 
     async with state.proxy() as data:

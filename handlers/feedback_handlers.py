@@ -1,14 +1,14 @@
 from aiogram import types
 
 from dispatcher import dispatcher
-from states import LoginState, MakeOrderState
+from states import LoginState, MakeOrderState, ReviewState
 from server_requests import request_feedback
 
 
-@dispatcher.message_handler(commands=['feedback'], state=[None, LoginState, MakeOrderState])
+@dispatcher.message_handler(commands=['feedback'], state=[None, LoginState, MakeOrderState, ReviewState])
 async def feedback(message: types.Message):
 
-    dispatcher.register_message_handler(text, state=[None, LoginState, MakeOrderState])
+    dispatcher.register_message_handler(text, state=[None, LoginState, MakeOrderState, ReviewState])
     await message.answer('Введите сообщение для отправки')
 
 

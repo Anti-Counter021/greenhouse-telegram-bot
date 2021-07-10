@@ -47,3 +47,11 @@ class MakeOrderState(StatesGroup):
 class ResetPasswordState(StatesGroup):
 
     email = State()
+
+
+class ReviewState(StatesGroup):
+
+    appraisal = State()
+    comment = State()
+
+    next_page_number_reviews = State()
