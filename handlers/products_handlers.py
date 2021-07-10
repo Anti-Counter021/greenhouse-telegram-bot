@@ -2,12 +2,12 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from dispatcher import dispatcher
-from states import LoginState
+from states import LoginState, MakeOrderState
 from server_requests import request_products
 from utils import product_detail_load, parse_product, product_features
 
 
-@dispatcher.message_handler(commands=['products'], state=[None, LoginState])
+@dispatcher.message_handler(commands=['products'], state=[None, LoginState, MakeOrderState])
 async def get_products(message: types.Message, state: FSMContext):
 
     await message.answer('Вот первые несколько товаров по вашему запросу:')
@@ -17,7 +17,7 @@ async def get_products(message: types.Message, state: FSMContext):
     await parse_product(response, state)
 
 
-@dispatcher.message_handler(commands=['detail'], state=[None, LoginState])
+@dispatcher.message_handler(commands=['detail'], state=[None, LoginState, MakeOrderState])
 async def detail_product(message: types.Message, state: FSMContext):
 
     if not message.reply_to_message:

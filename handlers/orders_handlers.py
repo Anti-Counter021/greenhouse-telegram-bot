@@ -3,13 +3,12 @@ from aiogram.dispatcher import FSMContext
 
 from datetime import datetime
 
-from .auth_handlers import login
 from dispatcher import dispatcher
 from states import LoginState, MakeOrderState
 from server_requests import request_order, request_cart
 
 
-@dispatcher.message_handler(commands=['make'], state=LoginState)
+@dispatcher.message_handler(commands=['make'], state=[LoginState, MakeOrderState])
 async def make_order(message: types.Message, state: FSMContext):
 
     async with state.proxy() as data:
@@ -115,8 +114,6 @@ async def set_order_date_make(message: types.Message, state: FSMContext):
         dispatcher.message_handlers.unregister(set_buying_type_make)
         dispatcher.message_handlers.unregister(set_order_date_make)
 
-        await state.finish()
         await message.answer(
-            'Заказ создан успешно. Ждите ответа. Чтобы продолжить вам необходимо ещё раз войти в аккаунт!'
+            'Заказ создан успешно. Ждите ответа!'
         )
-        await login(message)

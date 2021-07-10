@@ -2,12 +2,12 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from dispatcher import dispatcher, bot
-from states import LoginState
+from states import LoginState, MakeOrderState
 from server_requests import request_products
 from utils import load_products, parse_product
 
 
-@dispatcher.callback_query_handler(state=[None, LoginState])
+@dispatcher.callback_query_handler(state=[None, LoginState, MakeOrderState])
 async def callback_categories(callback_query: types.CallbackQuery, state: FSMContext):
 
     async with state.proxy() as data:

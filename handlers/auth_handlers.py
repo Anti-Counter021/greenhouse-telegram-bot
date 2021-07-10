@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from dispatcher import dispatcher
-from states import LoginState, RegisterState, ResetPasswordState
+from states import LoginState, RegisterState, ResetPasswordState, MakeOrderState
 from server_requests import request_login, profile_request, logout_request, request_register, request_reset_password
 
 
@@ -189,8 +189,7 @@ async def set_password_login(message: types.Message, state: FSMContext):
     dispatcher.message_handlers.unregister(set_password_login)
 
 
-# Normal output !!!
-@dispatcher.message_handler(state=LoginState, commands=['profile'])
+@dispatcher.message_handler(state=[LoginState, MakeOrderState], commands=['profile'])
 async def get_profile(message: types.Message, state: FSMContext):
 
     async with state.proxy() as data:
@@ -206,7 +205,7 @@ async def get_profile(message: types.Message, state: FSMContext):
             await message.answer(f'Итого {order["cart"]["final_price"]} руб.')
 
 
-@dispatcher.message_handler(state=LoginState, commands=['logout'])
+@dispatcher.message_handler(state=[LoginState, MakeOrderState], commands=['logout'])
 async def logout(message: types.Message, state: FSMContext):
 
     async with state.proxy() as data:

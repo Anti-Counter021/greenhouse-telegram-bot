@@ -4,7 +4,7 @@ from aiogram.dispatcher import FSMContext
 from typing import Dict
 
 from dispatcher import dispatcher
-from states import LoginState
+from states import LoginState, MakeOrderState
 from server_requests import request_cart
 
 
@@ -22,7 +22,7 @@ async def check_message(data, message: types.Message):
     return True
 
 
-@dispatcher.message_handler(commands=['cart'], state=LoginState)
+@dispatcher.message_handler(commands=['cart'], state=[LoginState, MakeOrderState])
 async def get_cart(message: types.Message, state: FSMContext):
 
     async with state.proxy() as data:
@@ -46,7 +46,7 @@ async def get_cart(message: types.Message, state: FSMContext):
         )
 
 
-@dispatcher.message_handler(commands=['add'], state=LoginState)
+@dispatcher.message_handler(commands=['add'], state=[LoginState, MakeOrderState])
 async def add_to_cart(message: types.Message, state: FSMContext):
 
     if not message.reply_to_message:
@@ -72,7 +72,7 @@ async def add_to_cart(message: types.Message, state: FSMContext):
             await message.answer('Этот товар уже в корзине!')
 
 
-@dispatcher.message_handler(commands=['remove'], state=LoginState)
+@dispatcher.message_handler(commands=['remove'], state=[LoginState, MakeOrderState])
 async def remove_from_cart(message: types.Message, state: FSMContext):
 
     if not message.reply_to_message:
@@ -97,7 +97,7 @@ async def remove_from_cart(message: types.Message, state: FSMContext):
             await message.answer('Обновите корзину и выберите от туда товар для удаления!')
 
 
-@dispatcher.message_handler(commands=['change'], state=LoginState)
+@dispatcher.message_handler(commands=['change'], state=[LoginState, MakeOrderState])
 async def change_qty(message: types.Message, state: FSMContext):
 
     if not message.reply_to_message:
