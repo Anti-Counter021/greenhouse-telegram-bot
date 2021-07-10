@@ -72,7 +72,7 @@ async def parse_product(response: dict, state: FSMContext):
 
 async def review_load(review: Dict, message: types.Message):
 
-    await message.answer(f'Автор отзыва - {review["user"]}')
+    await message.answer(f'Автор отзыва - {review["user"]}\nОценка {review["appraisal"]}')
     await message.answer(
         f'{review["comment"]} Дата публикации '
         f'{datetime.fromisoformat(review["created_at"][:-1]).strftime("%d/%m/%Y")}'

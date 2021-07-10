@@ -88,7 +88,7 @@ async def set_email_register(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         try:
             request_register.exists_email(message.text)
-            await message.answer('Такое почта уже существует. Пожалуйства введите другую.')
+            await message.answer('Такая почта уже существует. Пожалуйства введите другую.')
             return
         except:
             data['email'] = message.text
@@ -194,7 +194,11 @@ async def get_profile(message: types.Message, state: FSMContext):
 
     async with state.proxy() as data:
         await message.answer('Ваши заказы:')
-        for order in profile_request(data['token']).load_json():
+        orders = profile_request(data['token']).load_json()
+        if not orders:
+            await message.answer('У вас ещё нет заказов')
+            return
+        for order in orders:
             await message.answer('======================================================')
             for cart_product in order['cart']['products']:
                 await message.answer(
