@@ -1,4 +1,4 @@
-HOST: str = 'http://localhost:8000'
+HOST: str = 'http://localhost'
 SITE: str = HOST + '/api/'
 
 from .categories import request_categories
